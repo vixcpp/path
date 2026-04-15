@@ -71,7 +71,7 @@ jobs:
         with:
           repository: vixcpp/error
           ref: ${{ env.VIX_GIT_BRANCH }}
-          path: ../error
+          path: error
           fetch-depth: 0
 
       - name: Setup CMake
@@ -102,7 +102,7 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          cmake -S ../error -B ../error/build -G Ninja \
+          cmake -S error -B error/build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DVIX_ERROR_BUILD_TESTS=OFF \
             -DCMAKE_INSTALL_PREFIX="$PWD/stage"
@@ -113,7 +113,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          cmake -S ../error -B ../error/build `
+          cmake -S error -B error/build `
             -DCMAKE_INSTALL_PREFIX="$PWD/stage" `
             -DVIX_ERROR_BUILD_TESTS=OFF
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -271,7 +271,7 @@ jobs:
           cp -f build/CMakeFiles/CMakeError.log logs/ 2>/dev/null || true
           cp -f build/CMakeFiles/CMakeConfigureLog.yaml logs/ 2>/dev/null || true
 
-          cp -f ../error/build/CMakeCache.txt logs/error_CMakeCache.txt 2>/dev/null || true
+          cp -f error/build/CMakeCache.txt logs/error_CMakeCache.txt 2>/dev/null || true
           cp -f ../error/build/CMakeFiles/CMakeOutput.log logs/error_CMakeOutput.log 2>/dev/null || true
           cp -f ../error/build/CMakeFiles/CMakeError.log logs/error_CMakeError.log 2>/dev/null || true
           cp -f ../error/build/CMakeFiles/CMakeConfigureLog.yaml logs/error_CMakeConfigureLog.yaml 2>/dev/null || true
