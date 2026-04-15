@@ -260,20 +260,28 @@ jobs:
           cmake --build smoke/build --config ${{ matrix.build_type }} --parallel $env:BUILD_JOBS
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-      - name: Upload logs on failure
+      - name: Collect logs
+        if: failure()
+        shell: bash
+        run: |
+          mkdir -p logs
+
+          cp -f build/CMakeCache.txt logs/ 2>/dev/null || true
+          cp -f build/CMakeFiles/CMakeOutput.log logs/ 2>/dev/null || true
+          cp -f build/CMakeFiles/CMakeError.log logs/ 2>/dev/null || true
+          cp -f build/CMakeFiles/CMakeConfigureLog.yaml logs/ 2>/dev/null || true
+
+          cp -f ../error/build/CMakeCache.txt logs/error_CMakeCache.txt 2>/dev/null || true
+          cp -f ../error/build/CMakeFiles/CMakeOutput.log logs/error_CMakeOutput.log 2>/dev/null || true
+          cp -f ../error/build/CMakeFiles/CMakeError.log logs/error_CMakeError.log 2>/dev/null || true
+          cp -f ../error/build/CMakeFiles/CMakeConfigureLog.yaml logs/error_CMakeConfigureLog.yaml 2>/dev/null || true
+
+      - name: Upload logs
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: path-logs-${{ matrix.os }}-${{ matrix.build_type }}
-          path: |
-            build/CMakeCache.txt
-            build/CMakeFiles/CMakeOutput.log
-            build/CMakeFiles/CMakeError.log
-            build/CMakeFiles/CMakeConfigureLog.yaml
-            ../error/build/CMakeCache.txt
-            ../error/build/CMakeFiles/CMakeOutput.log
-            ../error/build/CMakeFiles/CMakeError.log
-            ../error/build/CMakeFiles/CMakeConfigureLog.yaml
+          path: logs/*
           if-no-files-found: warn
 
   summary:
