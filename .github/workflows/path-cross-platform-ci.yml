@@ -106,8 +106,8 @@ jobs:
             -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
             -DVIX_ERROR_BUILD_TESTS=OFF \
             -DCMAKE_INSTALL_PREFIX="$PWD/stage"
-          cmake --build ../error/build --parallel ${BUILD_JOBS}
-          cmake --install ../error/build
+          cmake --build error/build --parallel ${BUILD_JOBS}
+          cmake --install error/build
 
       - name: Configure and build error (Windows)
         if: runner.os == 'Windows'
@@ -118,10 +118,10 @@ jobs:
             -DVIX_ERROR_BUILD_TESTS=OFF
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-          cmake --build ../error/build --config ${{ matrix.build_type }} --parallel $env:BUILD_JOBS
+          cmake --build error/build --config ${{ matrix.build_type }} --parallel $env:BUILD_JOBS
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-          cmake --install ../error/build --config ${{ matrix.build_type }}
+          cmake --install error/build --config ${{ matrix.build_type }}
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
       - name: Configure path (Unix)
@@ -272,9 +272,9 @@ jobs:
           cp -f build/CMakeFiles/CMakeConfigureLog.yaml logs/ 2>/dev/null || true
 
           cp -f error/build/CMakeCache.txt logs/error_CMakeCache.txt 2>/dev/null || true
-          cp -f ../error/build/CMakeFiles/CMakeOutput.log logs/error_CMakeOutput.log 2>/dev/null || true
-          cp -f ../error/build/CMakeFiles/CMakeError.log logs/error_CMakeError.log 2>/dev/null || true
-          cp -f ../error/build/CMakeFiles/CMakeConfigureLog.yaml logs/error_CMakeConfigureLog.yaml 2>/dev/null || true
+          cp -f error/build/CMakeFiles/CMakeOutput.log logs/error_CMakeOutput.log 2>/dev/null || true
+          cp -f error/build/CMakeFiles/CMakeError.log logs/error_CMakeError.log 2>/dev/null || true
+          cp -f error/build/CMakeFiles/CMakeConfigureLog.yaml logs/error_CMakeConfigureLog.yaml 2>/dev/null || true
 
       - name: Upload logs
         if: failure()
