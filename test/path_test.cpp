@@ -37,6 +37,7 @@
 #include <vix/path/Separator.hpp>
 #include <vix/path/Split.hpp>
 #include <vix/path/Stem.hpp>
+#include <vix/path/Relative.hpp>
 
 namespace
 {

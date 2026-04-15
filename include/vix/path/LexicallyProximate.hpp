@@ -17,6 +17,7 @@
 
 #include <string_view>
 
+#include <vix/path/PathOptions.hpp>
 #include <vix/path/PathResult.hpp>
 
 namespace vix::path
